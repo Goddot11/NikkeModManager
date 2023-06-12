@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NikkeModManagerCore\NikkeModManagerCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="K4os.Compression.LZ4">
+      <HintPath>..\NikkeModManagerCore\dependencies\K4os.Compression.LZ4.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

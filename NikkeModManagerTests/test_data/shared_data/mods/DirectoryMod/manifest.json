@@ -1,0 +1,9 @@
+{
+	"Author": "author",
+	"Link": "link",
+	"GameVersion": "0.0.1",
+	"ModVersion": "0.1",
+	"Data":{
+		"CustomField": "CustomValue"
+	}
+}

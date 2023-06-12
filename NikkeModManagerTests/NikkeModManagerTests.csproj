@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
+    <PackageReference Include="coverlet.collector" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="test_data\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="test_data\game_data_tests_outdated\cache\Default\00a0cea013ca9b06c4757ac267546788.cache" />
+    <None Remove="test_data\game_data_tests_outdated\cache\Default\0a3d7c87b374f9187589d8a8003c2b8c.cache" />
+    <None Remove="test_data\game_data_tests_outdated\cache\Default\0a41eacccfa3691ea55a1c9e51db5b3d.cache" />
+    <None Remove="test_data\game_data_tests_outdated\cache\Default\0ad65d4b80b090ac85b3cbee5fc0e28c.cache" />
+    <None Remove="test_data\game_data_tests_outdated\cache\Default\0ae8db684b77db39bb1dca69e9f09062.cache" />
+    <None Remove="test_data\game_data_tests_outdated\cache\Default\0ae94c6ed1d4f45b16d3ee8c02c5b449.cache" />
+    <None Remove="test_data\game_data_tests_outdated\mods\Default\00a0cea013ca9b06c4757ac267546788" />
+    <None Remove="test_data\game_data_tests_outdated\mods\Default\0a3d7c87b374f9187589d8a8003c2b8c" />
+    <None Remove="test_data\game_data_tests_outdated\mods\Default\0a41eacccfa3691ea55a1c9e51db5b3d" />
+    <None Remove="test_data\game_data_tests_outdated\mods\Default\0ad65d4b80b090ac85b3cbee5fc0e28c" />
+    <None Remove="test_data\game_data_tests_outdated\mods\Default\0ae8db684b77db39bb1dca69e9f09062" />
+    <None Remove="test_data\game_data_tests_outdated\mods\Default\0ae94c6ed1d4f45b16d3ee8c02c5b449" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NikkeModManagerCore\NikkeModManagerCore.csproj" />
+  </ItemGroup>
+</Project>

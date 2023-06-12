@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="protobuf-net" Version="3.2.26" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AssetStudio">
+      <HintPath>dependencies\AssetStudio.dll</HintPath>
+    </Reference>
+    <Reference Include="AssetStudio.PInvoke">
+      <HintPath>dependencies\AssetStudio.PInvoke.dll</HintPath>
+    </Reference>
+    <Reference Include="AssetStudioFBXWrapper">
+      <HintPath>dependencies\AssetStudioFBXWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AssetStudioUtility">
+      <HintPath>dependencies\AssetStudioUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4">
+      <HintPath>dependencies\K4os.Compression.LZ4.dll</HintPath>
+    </Reference>
+    <Reference Include="Texture2DDecoderWrapper">
+      <HintPath>dependencies\Texture2DDecoderWrapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="_nikke_data.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="x64\AssetStudioFBXNative.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x64\fmod.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x64\Texture2DDecoderNative.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x86\AssetStudioFBXNative.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x86\fmod.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x86\Texture2DDecoderNative.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

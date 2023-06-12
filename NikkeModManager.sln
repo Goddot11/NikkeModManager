@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NikkeModManager", "NikkeModManager\NikkeModManager.csproj", "{46A3182F-6210-416B-B764-FE7BC8385CB4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NikkeModManagerCore", "NikkeModManagerCore\NikkeModManagerCore.csproj", "{0CEC5603-55F8-4ACB-8839-D0462306CDBF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NikkeModManagerTests", "NikkeModManagerTests\NikkeModManagerTests.csproj", "{AB40D050-0EB6-48B6-9B4C-243DABC050FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NikkeModManagerConsole", "NikkeModManagerConsole\NikkeModManagerConsole.csproj", "{DF0B66DD-0535-4D27-96AA-6EBC1C9F7D15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		NuGetRelease|Any CPU = NuGetRelease|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46A3182F-6210-416B-B764-FE7BC8385CB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46A3182F-6210-416B-B764-FE7BC8385CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46A3182F-6210-416B-B764-FE7BC8385CB4}.NuGetRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{46A3182F-6210-416B-B764-FE7BC8385CB4}.NuGetRelease|Any CPU.Build.0 = Release|Any CPU
+		{46A3182F-6210-416B-B764-FE7BC8385CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46A3182F-6210-416B-B764-FE7BC8385CB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CEC5603-55F8-4ACB-8839-D0462306CDBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEC5603-55F8-4ACB-8839-D0462306CDBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEC5603-55F8-4ACB-8839-D0462306CDBF}.NuGetRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEC5603-55F8-4ACB-8839-D0462306CDBF}.NuGetRelease|Any CPU.Build.0 = Release|Any CPU
+		{0CEC5603-55F8-4ACB-8839-D0462306CDBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEC5603-55F8-4ACB-8839-D0462306CDBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB40D050-0EB6-48B6-9B4C-243DABC050FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB40D050-0EB6-48B6-9B4C-243DABC050FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB40D050-0EB6-48B6-9B4C-243DABC050FF}.NuGetRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{AB40D050-0EB6-48B6-9B4C-243DABC050FF}.NuGetRelease|Any CPU.Build.0 = Release|Any CPU
+		{AB40D050-0EB6-48B6-9B4C-243DABC050FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB40D050-0EB6-48B6-9B4C-243DABC050FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF0B66DD-0535-4D27-96AA-6EBC1C9F7D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF0B66DD-0535-4D27-96AA-6EBC1C9F7D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF0B66DD-0535-4D27-96AA-6EBC1C9F7D15}.NuGetRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{DF0B66DD-0535-4D27-96AA-6EBC1C9F7D15}.NuGetRelease|Any CPU.Build.0 = Release|Any CPU
+		{DF0B66DD-0535-4D27-96AA-6EBC1C9F7D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF0B66DD-0535-4D27-96AA-6EBC1C9F7D15}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B28B230-0683-4364-8446-96BE7B70C933}
+	EndGlobalSection
+EndGlobal
