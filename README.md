@@ -14,6 +14,8 @@ Currently only supports Windows PCs, support may be extended to Android in the f
 * Swap back to default Nikke bundles at any time
 * One button patching process, including renaming mod files
 
+![mod_manager_overview](https://github.com/Goddot11/NikkeModManager/assets/136280596/1fc837ab-2e40-4314-8855-44d5ccd48c55)
+
 ## Requirements
 
 [.NET Desktop Runtime 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)
@@ -26,7 +28,7 @@ Either by zipping it up in place or copying the directory elsewhere, if anything
 
 If you currently have mods installed it's recommended to remove them before running the application, otherwise the manager will treat those mods as base game files (which is fine if you never want to uninstall those mods).
 
-2. Download the latest release from [GitHub](https://github.com/) (insert link here)
+2. Download the latest release from [GitHub](https://github.com/Goddot11/NikkeModManager/releases)
 3. Move downloaded NikkeModManager.zip to desired location and unzip
 4. Move all mods into the "mods" folder. A mod is any zip file or normal folder containing asset bundles (files named like 7d980edbbdaf245024fe1bbfa3ea23ec). Asset bundles directly in the mods folder will not be loaded, they must be contained in a folder or zip file for organizational purposes.
 5. Run NikkeModManager.exe. The first time the application is run will take a few minutes as it backs up existing nikke files, caches mod data, and builds a filename map.
@@ -87,5 +89,5 @@ A manifest file is not required, but can make it easier for users to keep track 
 
 ## Credits
 
-Thanks to Perfare's [Asset Studio](https://github.com/Perfare/AssetStudio) and FZFalzar's [Nikke Tools](https://github.com/FZFalzar/NikkeTools) which make decrytping and parsing Nikke asset bundles possible.
+Thanks to Perfare's [Asset Studio](https://github.com/Perfare/AssetStudio) and FZFalzar's [Nikke Tools](https://github.com/FZFalzar/NikkeTools) which make decrypting and parsing Nikke asset bundles possible.
 
