@@ -18,15 +18,15 @@ class Program {
         List<NikkeBundle> bundles = dataService.GetBundles();
 
         foreach (IGrouping<string, NikkeBundle> group in bundles.GroupBy(x => x.CharacterId)) {
-            Console.WriteLine($"{group.First().CharacterId} - {group.First().Name}");
+            Logger.WriteLine($"{group.First().CharacterId} - {group.First().Name}");
             foreach (NikkeBundle bundle in group.OrderBy(bundle => bundle.SkinKey)) {
-                Console.WriteLine($"\t{bundle.Pose} - {bundle.SkinKey}");
+                Logger.WriteLine($"\t{bundle.Pose} - {bundle.SkinKey}");
             }
         }
 
         List<string> ids = bundles.Select(q => q.CharacterId).Distinct().ToList();
 
-        Console.WriteLine("Enter character id to preview");
+        Logger.WriteLine("Enter character id to preview");
 
         var missingBundles = bundles.Where(q => q.Pose=="idle" && NikkeDataHelper.GetName(q.CharacterId) == "???").OrderBy(q => q.CharacterId);
         foreach(var missingBundle in missingBundles){
@@ -46,7 +46,7 @@ class Program {
                 if (bundle != null) {
                     engine.PreviewBundle(bundle, anim);
                 } else {
-                    Console.WriteLine($"Couldn't find {id} {pose}");
+                    Logger.WriteLine($"Couldn't find {id} {pose}");
                 }
             }
         }

@@ -73,13 +73,13 @@ namespace NikkeModManagerCore {
                     case 2:
                         return DecryptV2(input, header, reader);
                     default:
-                        Console.WriteLine($"Error processing, unknown asset version encountered: ");
+                        Logger.WriteLine($"Error processing, unknown asset version encountered: ");
                         break;
                 }
             } catch (FileLoadException) {
-                Console.WriteLine($"stream does not seem to be NKAB!");
+                Logger.WriteLine($"stream does not seem to be NKAB!");
             } catch (Exception ex) {
-                Console.WriteLine(ex.ToString());
+                Logger.WriteLine(ex.ToString());
             }
             return new MemoryStream();
         }
@@ -146,8 +146,8 @@ namespace NikkeModManagerCore {
             try {
                 input = File.ReadAllBytes(path);
             } catch (Exception e) {
-                Console.WriteLine($"Error reading from {path}");
-                Console.WriteLine(e.ToString());
+                Logger.WriteLine($"Error reading from {path}");
+                Logger.WriteLine(e.ToString());
             }
 
             try {
@@ -202,8 +202,8 @@ namespace NikkeModManagerCore {
                 fs.Write(ms.GetBuffer());
                 return fs;
             } catch (Exception e) {
-                Console.WriteLine("Error processing file: ");
-                Console.WriteLine(e.ToString());
+                Logger.WriteLine("Error processing file: ");
+                Logger.WriteLine(e.ToString());
                 return new MemoryStream();
             }
         }

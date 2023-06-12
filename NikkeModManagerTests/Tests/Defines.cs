@@ -19,17 +19,21 @@ namespace NikkeModManagerTests.Tests {
         protected readonly string DirectoryModName = "DirectoryMod";
         protected readonly string ZipModName = "ZipMod.zip";
 
-        [SetUp]
-        public void GeneralSetup() {
-
-            NikkeConfig.LoadConfig(new NikkeConfig.ConfigData() {
+        protected NikkeConfig.ConfigData TestConfig {
+            get => new NikkeConfig.ConfigData() {
                 ModDirectory = ModDirectory,
                 CacheDirectory = CacheDirectory,
                 GameDirectory = GameDirectory,
 
                 UseMultiThreading = true,
                 LoadGameData = true,
-            });
+            };
+        }
+
+        [SetUp]
+        public void GeneralSetup() {
+
+            NikkeConfig.LoadConfig(TestConfig);
 
             if (File.Exists(NikkeDataHelper.NAME_DATA_FILE)) File.Delete(NikkeDataHelper.NAME_DATA_FILE);
             NikkeDataHelper.Initialize();

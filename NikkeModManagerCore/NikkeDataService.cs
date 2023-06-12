@@ -11,9 +11,9 @@ namespace NikkeModManagerCore {
     public class NikkeDataService {
         public const string STATE_FILE = "_state";
 
-        public event Action DataUpdated = () => Console.WriteLine("Data Loaded");
-        public event Action<NikkeBundle, bool> BundleEnabled = (bundle, status) => Console.WriteLine($"{(status ? "Enabled":"Disabled")} {bundle.FileIdentifier}");
-        public event Action<List<NikkeBundle>> PatchComplete = (lst) => Console.WriteLine($"Successfully patched {lst.Count} bundles");
+        public event Action DataUpdated = () => Logger.WriteLine("Data Loaded");
+        public event Action<NikkeBundle, bool> BundleEnabled = (bundle, status) => Logger.WriteLine($"{(status ? "Enabled":"Disabled")} {bundle.FileIdentifier}");
+        public event Action<List<NikkeBundle>> PatchComplete = (lst) => Logger.WriteLine($"Successfully patched {lst.Count} bundles");
         public event Action<string> Error = _ => { };
 
         public bool IsLoading { get; private set; }
@@ -28,6 +28,16 @@ namespace NikkeModManagerCore {
 
         private NikkeMod _defaultMod { get => _mods.First(mod => mod.Name == ModCollector.DefaultGameMod); }
 
+        public NikkeDataService(NikkeConfig.ConfigData config) {
+            Logger.Initialize("_log.txt");
+            NikkeConfig.LoadConfig(config);
+        }
+        public NikkeDataService() {
+            Logger.Initialize("_log.txt");
+            if(!NikkeConfig.IsConfigSet())
+                NikkeConfig.LoadConfig("_config.json");
+        }
+
         /// <summary>
         /// Start a task to load all <see cref="NikkeMod"/>s in the background. <see cref="DataUpdated"/> Will be called when the load is complete
         /// </summary>
@@ -38,7 +48,7 @@ namespace NikkeModManagerCore {
                 try {
                     Load();
                 } catch (Exception ex) {
-                    Console.WriteLine($"Unable to load mods:\n{ex}");
+                    Logger.WriteLine($"Unable to load mods:\n{ex}");
                 }
             });
             task.Start();
@@ -149,7 +159,7 @@ namespace NikkeModManagerCore {
         /// </summary>
         public void PatchGame() {
             List<NikkeBundle> toInstall = GetChangedBundles();
-            Console.WriteLine($"Patching game with {toInstall.Count} mods\n\t" + string.Join("\n\t", toInstall.Select(GetBundleUniqueIdentifier)));
+            Logger.WriteLine($"Patching game with {toInstall.Count} mods\n\t" + string.Join("\n\t", toInstall.Select(GetBundleUniqueIdentifier)));
 
             List<NikkeBundle> failed = new List<NikkeBundle>();
             foreach (NikkeBundle bundle in toInstall.ToList()) {
@@ -212,14 +222,14 @@ namespace NikkeModManagerCore {
         /// </summary>
         public void DeleteGameNikkeBundles() {
             if (_defaultMod == null) return;
-            Console.WriteLine($"Deleting {_defaultMod.Bundles.Count} bundle files from {NikkeConfig.GameDataDirectory}");
+            Logger.WriteLine($"Deleting {_defaultMod.Bundles.Count} bundle files from {NikkeConfig.GameDataDirectory}");
             foreach (NikkeBundle bundle in _defaultMod.Bundles) {
                 string path = Path.Join(NikkeConfig.GameDataDirectory, bundle.RelativePath);
                 if (File.Exists(path)) {
                     File.Delete(path);
-                    Console.WriteLine($"File deleted {bundle.RelativePath}");
+                    Logger.WriteLine($"File deleted {bundle.RelativePath}");
                 } else {
-                    Console.WriteLine($"File not found in game directory {bundle.RelativePath}");
+                    Logger.WriteLine($"File not found in game directory {bundle.RelativePath}");
                 }
             }
 

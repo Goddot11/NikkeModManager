@@ -17,15 +17,15 @@ namespace NikkeModManagerCore {
             string[] data = File.ReadAllLines(NIKKE_DATA_FILE);
             IEnumerable<NameRow> rowData = data.ToList().Select(line => new NameRow(line));
             _nikkeRows = rowData.ToList().ToDictionary(row => row.Id, row => row);
-            Console.WriteLine($"Loaded {_nikkeRows.Count} rows of nikke data, skipping {_nikkeRows.Values.Count(x => x.Skip)} bundles");
+            Logger.WriteLine($"Loaded {_nikkeRows.Count} rows of nikke data, skipping {_nikkeRows.Values.Count(x => x.Skip)} bundles");
 
             if (File.Exists(NAME_DATA_FILE)) {
                 data = File.ReadAllLines(NAME_DATA_FILE);
                 _fileRows = data.ToDictionary(line => line.Split(",")[0], line => line.Split(",")[^1]);
-                Console.WriteLine($"Loaded {data.Length} filename mappings");
+                Logger.WriteLine($"Loaded {data.Length} filename mappings");
             } else {
                 _fileRows = new Dictionary<string, string>();
-                Console.WriteLine("Unable to find Nikke Filename mapping");
+                Logger.WriteLine("Unable to find Nikke Filename mapping");
             }
         }
 

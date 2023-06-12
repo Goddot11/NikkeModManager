@@ -39,7 +39,7 @@ namespace NikkeModManagerConsole.PreviewEngine
 
         private void SetBundle(NikkeBundle bundle) {
             if (!_bundleScreens.ContainsKey(bundle)) {
-                Console.WriteLine($"Building skeleton for {bundle.FileName}");
+                Logger.WriteLine($"Building skeleton for {bundle.FileName}");
                 try {
                     _screen410.BuildSkeleton(bundle);
                     _bundleScreens[bundle] = _screen410;
@@ -48,19 +48,19 @@ namespace NikkeModManagerConsole.PreviewEngine
                         _screen4064.BuildSkeleton(bundle);
                         _bundleScreens[bundle] = _screen4064;
                     } catch (Exception e2) {
-                        Console.WriteLine($"Unable to build skeleton for bundle {bundle.FileName}:\n4.1.0 Engine:{e}\n\n:4.0.64 Engine:\n{e2}");
+                        Logger.WriteLine($"Unable to build skeleton for bundle {bundle.FileName}:\n4.1.0 Engine:{e}\n\n:4.0.64 Engine:\n{e2}");
                         return;
                     }
                 }
             }
 
             _currentScreen = _bundleScreens[bundle];
-            Console.WriteLine($"Loading skeleton for {bundle.CharacterId} with anim {_previewAnim}");
+            Logger.WriteLine($"Loading skeleton for {bundle.CharacterId} with anim {_previewAnim}");
             try {
                 _currentScreen!.LoadSkeleton(bundle, _previewAnim);
-                Console.WriteLine($"Successfully loaded skeleton for {bundle.CharacterId} with anim {_previewAnim}");
+                Logger.WriteLine($"Successfully loaded skeleton for {bundle.CharacterId} with anim {_previewAnim}");
             } catch (Exception e) {
-                Console.WriteLine($"Failed to load skeleton:\n{e}");
+                Logger.WriteLine($"Failed to load skeleton:\n{e}");
             }
         }
 
@@ -83,7 +83,7 @@ namespace NikkeModManagerConsole.PreviewEngine
                 try {
                     _currentScreen!.Render();
                 } catch (Exception e) {
-                    Console.WriteLine($"Failed to draw preview: \n{e}");
+                    Logger.WriteLine($"Failed to draw preview: \n{e}");
                 }
             }
         }
