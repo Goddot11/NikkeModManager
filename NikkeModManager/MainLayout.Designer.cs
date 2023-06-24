@@ -32,7 +32,6 @@ namespace NikkeModManager {
         }
 
         protected void Setup() {
-            Console.WriteLine("Loading Data");
             _service = new NikkeDataService();
 
             _service.Error += (text) => {
@@ -66,7 +65,7 @@ namespace NikkeModManager {
 
 
             #region Toolbar
-            Console.WriteLine("Setting up Toolbar");
+            Logger.WriteLine("Setting up Toolbar");
             ToolStrip.Items.Add("Expand All").Click += (_, _) => {
                 BundleTree.BeginUpdate();
                 foreach (TreeNode node in BundleTree.Nodes) {

@@ -16,17 +16,17 @@ namespace NikkeModManagerCore {
 
         public List<NikkeMod> CollectMods(string cacheDir, string modDir, string gameDir) {
             Stopwatch sw = Stopwatch.StartNew();
-            Console.WriteLine($"Searching for mods in {modDir}");
+            Logger.WriteLine($"Searching for mods in {modDir}");
             if (!Directory.Exists(cacheDir)) {
                 Directory.CreateDirectory(cacheDir);
-                Console.WriteLine($"Creating cache directory at {cacheDir}");
+                Logger.WriteLine($"Creating cache directory at {cacheDir}");
             } else {
-                Console.WriteLine($"Loading from cache directory at {Path.Join(Directory.GetCurrentDirectory(), cacheDir)}");
+                Logger.WriteLine($"Loading from cache directory at {Path.Join(Directory.GetCurrentDirectory(), cacheDir)}");
             }
 
             string defaultModDirectory = Path.Join(modDir, DefaultGameMod);
             if (!Directory.Exists(defaultModDirectory)) {
-                Console.WriteLine($"Creating Default mod from game data");
+                Logger.WriteLine($"Creating Default mod from game data");
                 BuildDefaultMod(cacheDir, defaultModDirectory, gameDir);
             }
 
@@ -42,14 +42,14 @@ namespace NikkeModManagerCore {
             }
 
             mods.ForEach(mod => mod.Load(cacheDir));
-            Console.WriteLine($"Found {mods.SelectMany(q => q.Bundles).Count()} bundles in {mods.Count} mods in {sw.ElapsedMilliseconds}ms");
+            Logger.WriteLine($"Found {mods.SelectMany(q => q.Bundles).Count()} bundles in {mods.Count} mods in {sw.ElapsedMilliseconds}ms");
 
             // Check that the default game mod has valid mappings to existing game files
             NikkeMod defaultMod = mods.FirstOrDefault(mod => mod.Name == DefaultGameMod);
             if (ValidateDefaultMod(defaultMod, gameDir)) {
-                Console.WriteLine("Successfully Validated all file mappings");
+                Logger.WriteLine("Successfully Validated all file mappings");
             } else {
-                Console.WriteLine("Default mod has invalid or missing mappings, rebuilding");
+                Logger.WriteLine("Default mod has invalid or missing mappings, rebuilding");
                 mods.Remove(defaultMod);
                 BuildDefaultMod(cacheDir, defaultModDirectory, gameDir);
                 NikkeMod mod = new NikkeDirectoryMod(defaultModDirectory);
@@ -58,34 +58,34 @@ namespace NikkeModManagerCore {
             }
 
             sw.Restart();
-            Console.WriteLine("Exporting bundle cache files");
+            Logger.WriteLine("Exporting bundle cache files");
             mods.ForEach(mod => mod.ExportCache(cacheDir));
-            Console.WriteLine($"Exported cache files in {sw.ElapsedMilliseconds}ms");
+            Logger.WriteLine($"Exported cache files in {sw.ElapsedMilliseconds}ms");
             return mods;
         }
 
         private bool ValidateDefaultMod(NikkeMod defaultMod, string gameDir) {
-            Console.WriteLine("Validating Default mod");
+            Logger.WriteLine("Validating Default mod");
             bool valid = true;
 
             if (defaultMod.Bundles.Count == 0) {
                 valid = false;
-                Console.WriteLine("Default mod contains no bundles");
+                Logger.WriteLine("Default mod contains no bundles");
             }
 
             foreach (NikkeBundle bundle in defaultMod.Bundles) {
                 string cachedFilename = NikkeDataHelper.GetFilename(bundle.FileIdentifier);
                 if (cachedFilename == "") {
                     valid = false;
-                    Console.WriteLine($"No cached filename for {bundle.FileIdentifier} - {bundle.FileName}");
+                    Logger.WriteLine($"No cached filename for {bundle.FileIdentifier} - {bundle.FileName}");
                 }
                 if (cachedFilename != bundle.FileName) {
                     valid = false;
-                    Console.WriteLine($"Found File mismatch for {bundle.FileIdentifier} between {cachedFilename} in cache and {bundle.FileName} in mod");
+                    Logger.WriteLine($"Found File mismatch for {bundle.FileIdentifier} between {cachedFilename} in cache and {bundle.FileName} in mod");
                 }
                 if(!File.Exists(Path.Join(gameDir, cachedFilename))) {
                     valid = false;
-                    Console.WriteLine($"Could not find filename for {bundle.FileIdentifier} - {cachedFilename} in \"{gameDir}\"");
+                    Logger.WriteLine($"Could not find filename for {bundle.FileIdentifier} - {cachedFilename} in \"{gameDir}\"");
                 }
             }
 
@@ -109,7 +109,7 @@ namespace NikkeModManagerCore {
             }
 
             NikkeDataHelper.SaveData();
-            Console.WriteLine("Default mod built");
+            Logger.WriteLine("Default mod built");
         }
     }
 }

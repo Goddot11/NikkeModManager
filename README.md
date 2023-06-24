@@ -14,7 +14,7 @@ Currently only supports Windows PCs, support may be extended to Android in the f
 * Swap back to default Nikke bundles at any time
 * One button patching process, including renaming mod files
 
-![mod_manager_overview](https://github.com/Goddot11/NikkeModManager/assets/136280596/a51516f4-8fdd-49a9-9a5d-102932498a07)
+![mod_manager_overview](https://github.com/Goddot11/NikkeModManager/assets/136280596/1fc837ab-2e40-4314-8855-44d5ccd48c55)
 
 ## Requirements
 
@@ -89,5 +89,5 @@ A manifest file is not required, but can make it easier for users to keep track 
 
 ## Credits
 
-Thanks to Perfare's [Asset Studio](https://github.com/Perfare/AssetStudio) and FZFalzar's [Nikke Tools](https://github.com/FZFalzar/NikkeTools) which make decrytping and parsing Nikke asset bundles possible.
+Thanks to Perfare's [Asset Studio](https://github.com/Perfare/AssetStudio) and FZFalzar's [Nikke Tools](https://github.com/FZFalzar/NikkeTools) which make decrypting and parsing Nikke asset bundles possible.
 

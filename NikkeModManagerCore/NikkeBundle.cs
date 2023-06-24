@@ -52,7 +52,7 @@ public class NikkeBundle {
     public string GetCacheFile(string modCacheDirectory) => Path.Join(modCacheDirectory, RelativePath + ".cache");
 
     public void NotifyLoaded(IEnumerable<string> animations) {
-        Console.WriteLine($"=== Successfully Loaded {FileName} - {CharacterId} ===");
+        Logger.WriteLine($"=== Successfully Loaded {FileName} - {CharacterId} ===");
         Animations.AddRange(animations);
     }
 
@@ -66,7 +66,7 @@ public class NikkeBundle {
             BundleCache cache = Serializer.Deserialize<BundleCache>(file);
             cache.LoadBundle(this);
             LoadedFromCache = true;
-            //Console.WriteLine($"Loaded {CharacterId} {Pose} {SkinKey} from cache in {stopwatch.ElapsedMilliseconds}ms");
+            //Logger.WriteLine($"Loaded {CharacterId} {Pose} {SkinKey} from cache in {stopwatch.ElapsedMilliseconds}ms");
             return;
         }
 
@@ -112,14 +112,14 @@ public class NikkeBundle {
         if (_atlasData == null) throw new NotSkinException($"Unable to find atlas file");
         if (_textureData == null) throw new NotSkinException($"Unable to find atlas texture");
         if (_skeletonData == null) throw new NotSkinException($"Unable to find skeleton file");
-        //Console.WriteLine($"Unpacked {CharacterId} {Pose} {SkinKey} in {stopwatch.ElapsedMilliseconds}ms");
+        //Logger.WriteLine($"Unpacked {CharacterId} {Pose} {SkinKey} in {stopwatch.ElapsedMilliseconds}ms");
     }
 
     public void ExportToCache(Stream output) {
         Stopwatch stopwatch = Stopwatch.StartNew();
         BundleCache cache = new BundleCache(this);
         Serializer.Serialize(output, cache);
-        //Console.WriteLine($"Exported {CharacterId} {Pose} {SkinKey} to cache in {stopwatch.ElapsedMilliseconds}ms");
+        //Logger.WriteLine($"Exported {CharacterId} {Pose} {SkinKey} to cache in {stopwatch.ElapsedMilliseconds}ms");
     }
 
     public void ExportToCache(string modCacheDirectory) {
@@ -140,12 +140,12 @@ public class NikkeBundle {
         if (File.Exists(path)) {
             if (overwrite) File.Delete(path);
             else {
-                Console.WriteLine($"Cannot export bundle file {FileName} to \"{path}\": File already exists");
+                Logger.WriteLine($"Cannot export bundle file {FileName} to \"{path}\": File already exists");
                 return;
             }
         }
         using FileStream file = File.Open(path, FileMode.Create);
-        Console.WriteLine($"Successfully exported {path}");
+        Logger.WriteLine($"Successfully exported {path}");
         ExportEncrypted(file);
     }
 

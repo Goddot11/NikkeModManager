@@ -9,9 +9,7 @@ public static class NikkeConfig {
     private static string _configFile = "";
     static ConfigData _config { get; set; }
 
-    static NikkeConfig() {
-        LoadConfigData();
-    }
+    public static bool IsConfigSet() => _config != null;
 
     public static void LoadConfig(string path) {
         _configFile = path;

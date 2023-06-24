@@ -56,11 +56,11 @@ public abstract class NikkeMod {
             try {
                 _bundles.Add(new NikkeBundle(filePath, stream, GetCacheDir(cachesDirectory)));
             } catch (NotSkinException ex) {
-                Console.WriteLine($"Skipping {filePath} in {Name}: {ex.Message}");
+                Logger.WriteLine($"Skipping {filePath} in {Name}: {ex.Message}");
             } catch (NotWindowsException ex) {
-                Console.WriteLine($"Skipping {filePath} in {Name}: Not for windows, detected platform {ex.TargetPlatform}");
+                Logger.WriteLine($"Skipping {filePath} in {Name}: Not for windows, detected platform {ex.TargetPlatform}");
             } catch (Exception ex) {
-                Console.WriteLine($"Failed to build bundle {filePath} in {Name}:\n{ex}");
+                Logger.WriteLine($"Failed to build bundle {filePath} in {Name}:\n{ex}");
                 FailedBundles++;
             } finally {
                 stream.Dispose();
@@ -72,7 +72,7 @@ public abstract class NikkeMod {
         try {
             Manifest = JsonSerializer.Deserialize<ModManifest>(stream);
         } catch (Exception ex) {
-            Console.WriteLine($"Unable to read mod manifest for {Name}:\n{ex}");
+            Logger.WriteLine($"Unable to read mod manifest for {Name}:\n{ex}");
         }
     }
 
@@ -115,7 +115,7 @@ public class NikkeDirectoryMod : NikkeMod {
     public NikkeDirectoryMod(string modPath) : base(modPath) { }
 
     protected override Dictionary<string, Stream> LoadData(string modPath) {
-        Console.WriteLine($"Loading Directory Mod {ModPath}");
+        Logger.WriteLine($"Loading Directory Mod {ModPath}");
         Dictionary<string, Stream> files = new Dictionary<string, Stream>();
         foreach (string filePath in Directory.GetFiles(modPath, "*", SearchOption.AllDirectories)) {
             string relativePath = Path.GetRelativePath(modPath, filePath);
@@ -135,7 +135,7 @@ public class NikkeZipMod : NikkeMod {
     public NikkeZipMod(string modPath) : base(modPath) { }
 
     protected override Dictionary<string, Stream> LoadData(string modPath) {
-        Console.WriteLine($"Loading Zip Mod {ModPath}");
+        Logger.WriteLine($"Loading Zip Mod {ModPath}");
         Dictionary<string, Stream> files = new Dictionary<string, Stream>();
         using FileStream file = File.OpenRead(modPath);
         ZipArchive archive = new ZipArchive(file);
