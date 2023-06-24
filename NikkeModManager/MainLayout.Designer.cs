@@ -1,6 +1,8 @@
 ﻿using NikkeModManagerCore;
+using NikkeModManagerCore.Exceptions;
 using ProtoBuf.Meta;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace NikkeModManager {
     partial class MainLayout {
@@ -31,18 +33,35 @@ namespace NikkeModManager {
 
         protected void Setup() {
             _service = new NikkeDataService();
-            _service.LoadData();
-            _service.DataUpdated += DataUpdated;
-            _service.BundleEnabled += EnableBundle;
+
+            _service.Error += (text) => {
+                MessageBox.Show(text, "Error", MessageBoxButtons.OK);
+            };
+
+            if (!_service.ValidateDataPath()) {
+                string text = $"Unable to find Nikke game data directory at `{NikkeConfig.GameDataDirectory}`. This is typically found at `~\\AppData\\LocalLow\\com_proximabeta\\NIKKE\\eb`. ";
+                text += "Please navigate to the Nikke game data directory (were you would normally place skin mods)";
+                MessageBox.Show(text, "Error", MessageBoxButtons.OK);
+                SetNikkeGameDataDirectory();
+                if (!_service.ValidateDataPath()) {
+                    MessageBox.Show("Unable to locate game data directory", "Error", MessageBoxButtons.OK);
+                }
+            }
 
             _service.PatchComplete += (bundles) => {
                 MessageBox.Show($"Successfully patched {bundles.Count} files", "Patch Complete", MessageBoxButtons.OK);
                 DataUpdated();
             };
 
-            _service.Error += (text) => {
-                MessageBox.Show(text, "Error", MessageBoxButtons.OK);
-            };
+            _initalLoadDialog = new WaitDialog();
+            _initalLoadDialog.BringToFront();
+            Task.Delay(1000).ContinueWith(t => Invoke(_initalLoadDialog.BringToFront));
+            _initalLoadDialog.StartPosition = FormStartPosition.CenterScreen;
+            _initalLoadDialog.Show();
+
+            _service.LoadData();
+            _service.DataUpdated += DataUpdated;
+            _service.BundleEnabled += EnableBundle;
 
 
             #region Toolbar
@@ -62,13 +81,29 @@ namespace NikkeModManager {
                 BundleTree.EndUpdate();
             };
             ToolStrip.Items.Add("Patch").Click += (_, _) => {
-                Confirm($"Overwrite game files with {_service.GetChangedBundles().Count} selected files?", _service.PatchGame);
+                Confirm($"Overwrite game files with {_service.GetChangedBundles().Count} selected files?", () => {
+                    try {
+                        _service.PatchGame();
+                    } catch (GameDataNotFoundException) {
+                        string text = $"Unable to find Nikke game data directory at `{NikkeConfig.GameDataDirectory}`. This if typically found at `~\\AppData\\LocalLow\\com_proximabeta\\NIKKE\\eb`. ";
+                        text += "Please navigate to the Nikke game data directory (were you would normally place skin mods)";
+                        MessageBox.Show(text, "Error", MessageBoxButtons.OK);
+                        SetNikkeGameDataDirectory();
+                        if (!_service.ValidateDataPath()) {
+                            MessageBox.Show("Unable to locate game data directory", "Error", MessageBoxButtons.OK);
+                        }
+                    }
+                });
             };
             _enableAllDropDown = new ToolStripDropDownButton("Enable All");
             ToolStrip.Items.Add(_enableAllDropDown);
 
             ToolStripDropDownButton miscDropdown = new ToolStripDropDownButton("Tools");
             ToolStrip.Items.Add(miscDropdown);
+            miscDropdown.DropDownItems.Add("Set Nikke Data Directory").Click += (_, _) => {
+                DialogResult confirmResult = MessageBox.Show("Please nagivate select the Nikke Game Data Directory (were you would normally place skin mods)", "Confirm", MessageBoxButtons.OK);
+                SetNikkeGameDataDirectory();
+            };
             miscDropdown.DropDownItems.Add("Clear Cache").Click += (_, _) => {
                 Confirm("Are you sure you want to delete all existing cache files?\nThey'll be regenerated the next time the app is opened.", _service.DeleteAllCaches);
             };
@@ -99,10 +134,6 @@ namespace NikkeModManager {
             FilterTextBox.TextChanged += (_, _) => BuildTree();
             #endregion
 
-            _initalLoadDialog = new WaitDialog();
-            _initalLoadDialog.TopMost = true;
-            _initalLoadDialog.StartPosition = FormStartPosition.CenterScreen;
-            _initalLoadDialog.Show();
         }
 
         void Confirm(string message, Action action) {
@@ -110,6 +141,14 @@ namespace NikkeModManager {
 
             if (confirmResult == DialogResult.Yes) {
                 action();
+            }
+        }
+
+        void SetNikkeGameDataDirectory() {
+            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+            DialogResult result = folderDialog.ShowDialog();
+            if (result == DialogResult.OK) {
+                NikkeConfig.GameDataDirectory = folderDialog.SelectedPath;
             }
         }
 
@@ -350,6 +389,7 @@ namespace NikkeModManager {
             Name = "MainLayout";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Nikke Mod Manager";
+            Load += MainLayout_Load;
             ToolbarContentLayout.ResumeLayout(false);
             ToolbarContentLayout.PerformLayout();
             BundlePreviewSplit.Panel1.ResumeLayout(false);

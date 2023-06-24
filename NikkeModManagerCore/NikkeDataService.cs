@@ -1,4 +1,5 @@
-﻿using SpirV;
+﻿using NikkeModManagerCore.Exceptions;
+using SpirV;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -47,8 +48,18 @@ namespace NikkeModManagerCore {
             Task task = new Task(() => {
                 try {
                     Load();
+                } catch (GameDataNotFoundException ex) {
+                    Console.WriteLine($"Unable to load mods:\n{ex}");
+                    Error(ex.Message);
+
+                    IsLoading = false;
+                    DataUpdated();
                 } catch (Exception ex) {
-                    Logger.WriteLine($"Unable to load mods:\n{ex}");
+                    Console.WriteLine($"Unable to load mods:\n{ex}");
+                    Error(ex.ToString());
+
+                    IsLoading = false;
+                    DataUpdated();
                 }
             });
             task.Start();
@@ -74,6 +85,8 @@ namespace NikkeModManagerCore {
             IsLoading = false;
             DataUpdated();
         }
+
+        public bool ValidateDataPath() => Directory.Exists(NikkeConfig.GameDataDirectory);
 
         /// <summary>
         /// </summary>
@@ -107,14 +120,14 @@ namespace NikkeModManagerCore {
         /// </summary>
         /// <param name="id"></param>
         /// <returns>All <see cref="NikkeBundle.SkinKey"/>s for a given <see cref="NikkeBundle.CharacterId"/> </returns>
-        public List<int> GetNikkeSkins(string id) => GetNikkeBundles(id).Select(q => q.SkinKey).Distinct().ToList();
+        public List<int> GetNikkeSkins(string id) => GetNikkeBundles(id).Select(q => q.SkinKey).Distinct().OrderBy(q => q).ToList();
         /// <summary>
         /// Will most likely be ["idle", "cover", "aim"]
         /// </summary>
         /// <param name="id"></param>
         /// <param name="skin"></param>
         /// <returns>All <see cref="NikkeBundle.Pose"/>s for a given <see cref="NikkeBundle.CharacterId"/> and <see cref="NikkeBundle.SkinKey"/></returns>
-        public List<string> GetNikkeSkinPoses(string id, int skin) => GetNikkeBundles(id).Where(q => q.SkinKey == skin).Select(q => q.Pose).Distinct().ToList();
+        public List<string> GetNikkeSkinPoses(string id, int skin) => GetNikkeBundles(id).Where(q => q.SkinKey == skin).Select(q => q.Pose).Distinct().OrderBy(q => q).ToList();
         /// <summary>
         /// </summary>
         /// <param name="id"></param>
@@ -158,6 +171,8 @@ namespace NikkeModManagerCore {
         /// If a file with the same name is not present in the game directory then either the filename map is out of date or the mod was created incorrectly.
         /// </summary>
         public void PatchGame() {
+            if (!ValidateDataPath()) throw new GameDataNotFoundException($"Unable to find Nikke Game Data in `{NikkeConfig.GameDataDirectory}`");
+
             List<NikkeBundle> toInstall = GetChangedBundles();
             Logger.WriteLine($"Patching game with {toInstall.Count} mods\n\t" + string.Join("\n\t", toInstall.Select(GetBundleUniqueIdentifier)));
 
@@ -245,6 +260,13 @@ namespace NikkeModManagerCore {
             } else {
                 _installedBundles = _defaultMod.Bundles;
             }
+
+            foreach (NikkeBundle bundle in _defaultMod.Bundles) {
+                if (_installedBundles.All(q => q.FileIdentifier != bundle.FileIdentifier)) {
+                    _installedBundles.Add(bundle);
+                }
+            }
+
             _enabledBundles = _installedBundles.ToList();
             _swappedBundles = new Dictionary<NikkeBundle, NikkeBundle>();
         }

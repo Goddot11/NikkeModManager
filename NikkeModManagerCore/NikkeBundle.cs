@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AssetStudio;
+using NikkeModManagerCore.Exceptions;
 using ProtoBuf;
 using SixLabors.ImageSharp.Formats.Png;
 
@@ -183,18 +184,5 @@ public class NikkeBundle {
             bundle._textureData = _textureData;
             bundle._skeletonData = _skeletonData;
         }
-    }
-}
-
-internal class NotSkinException : Exception {
-    public NotSkinException() { }
-    public NotSkinException(string message) : base(message) { }
-}
-
-internal class NotWindowsException : Exception {
-    public string TargetPlatform;
-
-    public NotWindowsException(string targetPlatform) : base(targetPlatform) {
-        TargetPlatform = targetPlatform;
     }
 }
