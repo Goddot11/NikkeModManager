@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using NikkeModManagerCore.Exceptions;
 
 namespace NikkeModManagerCore {
     public class ModCollector {
@@ -94,6 +95,10 @@ namespace NikkeModManagerCore {
         private void BuildDefaultMod(string cacheDir, string defaultModDirectory, string gameDir) {
             NikkeMod mod = new NikkeDirectoryMod(gameDir);
             mod.Load(cacheDir);
+
+            if (mod.Bundles.Count == 0) {
+                throw new GameDataNotFoundException("Game Data Directory contains no asset bundles.");
+            }
 
             if (Directory.Exists(defaultModDirectory)) Directory.Delete(defaultModDirectory, true);
             Directory.CreateDirectory(defaultModDirectory);

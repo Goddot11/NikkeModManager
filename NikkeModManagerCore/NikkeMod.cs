@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using NikkeModManagerCore.Exceptions;
 
 namespace NikkeModManagerCore;
 

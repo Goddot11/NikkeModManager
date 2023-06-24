@@ -81,7 +81,7 @@ public static class NikkeConfig {
 
     private static void SaveConfigData() {
         if (_configFile == "") return;
-        File.WriteAllText(_configFile, JsonSerializer.Serialize(_config));
+        File.WriteAllText(_configFile, JsonSerializer.Serialize(_config, options: new JsonSerializerOptions(){WriteIndented=true}));
     }
 
     public class ConfigData {
